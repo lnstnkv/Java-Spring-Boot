@@ -3,6 +3,7 @@ package ru.tsu.hits;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import java.io.InputStreamReader;
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Application {
@@ -20,7 +21,8 @@ public class Application {
                 .build()
                 .parse();
         tasks.stream()
-                .filter(taskCsv -> taskCsv.getName().contains(searchString))
+                //.filter(taskCsv -> taskCsv.getName().contains(searchString))
+                .sorted(Comparator.comparing(TaskCsv::getName))
                 .forEach(System.out::println);
     }
 }

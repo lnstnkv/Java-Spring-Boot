@@ -11,15 +11,21 @@ import lombok.ToString;
 @Setter
 public class TaskCsv {
     @CsvBindByPosition(position = 0)
-    private Long id;
+    private TypeTasks typeTasks;
 
     @CsvBindByPosition(position = 1)
      private String name;
 
     @CsvBindByPosition(position = 2)
-     private String performer;
+    private String author;
 
     @CsvBindByPosition(position = 3)
+     private String performer;
+
+    @CsvBindByPosition(position = 4)
+    private String priority;
+
+    @CsvBindByPosition(position = 5)
      private String creationDate;
 
 }
