@@ -23,13 +23,10 @@ public class UserController {
         return userService.save(createUserDto);
     }
 
-    @GetMapping("/{id}")
-    public UserDto getById(@PathVariable UUID id) {
-        return userService.getById(id.toString());
+    @GetMapping(value = "/{id}")
+    public UserDto getUserById(@PathVariable String id) {
+        return userService.getUserDtoById(id);
     }
-   /* @GetMapping()
-    public List<UserDto> getAll() {
-        return userService;
-    }
-    */
+
+
 }

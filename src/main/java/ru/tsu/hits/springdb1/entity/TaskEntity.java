@@ -29,6 +29,6 @@ public class TaskEntity {
     private Priority priority;
 
    @ManyToOne()
-   @JoinColumn(name="user_id", referencedColumnName = "id")
+   @JoinColumn(name="users_id", referencedColumnName = "id")
     private UserEntity createdUser;
 }

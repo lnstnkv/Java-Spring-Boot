@@ -8,4 +8,5 @@ public class CreateUpdateTasksDto {
     private String description;
     private String header;
     private Priority priority;
+    private String userId;
 }
