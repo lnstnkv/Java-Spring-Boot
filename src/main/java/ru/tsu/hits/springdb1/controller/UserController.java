@@ -2,13 +2,13 @@ package ru.tsu.hits.springdb1.controller;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.tsu.hits.springdb1.dto.CreateUserDto;
 import ru.tsu.hits.springdb1.dto.UserDto;
 import ru.tsu.hits.springdb1.service.UserService;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -22,4 +22,14 @@ public class UserController {
 
         return userService.save(createUserDto);
     }
+
+    @GetMapping("/{id}")
+    public UserDto getById(@PathVariable UUID id) {
+        return userService.getById(id.toString());
+    }
+   /* @GetMapping()
+    public List<UserDto> getAll() {
+        return userService;
+    }
+    */
 }

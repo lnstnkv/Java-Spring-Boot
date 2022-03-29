@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -43,6 +44,7 @@ public class UserEntity {
     private Role role;
 
     */
-
+    @OneToMany(mappedBy = "user")
+    private List<TaskEntity> tasks;
 
 }
