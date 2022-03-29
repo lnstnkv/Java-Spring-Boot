@@ -35,8 +35,8 @@ public class UserDtoConverter {
         List<TaskDto> result = new ArrayList<>();
         taskEntities.forEach(element -> {
             TaskDto taskDto = new TaskDto();
-            taskDto.setUser_id(element.getUuid());
-            taskDto.setUser_id(element.getCreatedUser().getName());
+            taskDto.setUsers_id(element.getUuid());
+            taskDto.setUsers_id(element.getCreatedUser().getName());
             taskDto.setDescription(element.getDescription());
             taskDto.setHeader(element.getHeader());
             taskDto.setPriority(element.getPriority());

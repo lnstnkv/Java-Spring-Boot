@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface TaskRepository extends CrudRepository<TaskEntity,String> {
 
-    List<TaskEntity> findByUser(UserEntity userEntity);
+    List<TaskEntity> findByCreatedUser(UserEntity userEntity);
 
 }

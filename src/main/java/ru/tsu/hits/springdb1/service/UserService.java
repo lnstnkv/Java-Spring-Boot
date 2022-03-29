@@ -33,7 +33,7 @@ public class UserService {
     }
 
     public List<TaskEntity> getTasksByUser(UserEntity userEntity) {
-        return taskRepository.findByUser(userEntity);
+        return taskRepository.findByCreatedUser(userEntity);
     }
 
     @Transactional(readOnly = true)

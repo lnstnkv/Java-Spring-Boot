@@ -44,7 +44,7 @@ public class UserEntity {
     private Role role;
 
     */
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "createdUser")
     private List<TaskEntity> tasks;
 
 }
