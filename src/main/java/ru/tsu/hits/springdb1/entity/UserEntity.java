@@ -20,15 +20,13 @@ public class UserEntity {
     @Column(name = "id")
     private String uuid;
 
-   /* @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     @Column(name = "date_create")
     private Date dateCreate;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "date_edit")
     private Date dateEdit;
-
-    */
 
     @Column
     private String name;
@@ -39,10 +37,10 @@ public class UserEntity {
     @Column
     private String password;
 
-   /* @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column
     private Role role;
-    */
+
 
     @OneToMany(mappedBy = "createdUser")
     private List<TaskEntity> tasks;

@@ -15,6 +15,9 @@ public class UserDtoConverter {
     public static UserEntity converterDtoToEntity(CreateUserDto dto) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUuid(UUID.randomUUID().toString());
+        userEntity.setDateCreate(dto.getDateCreate());
+        userEntity.setDateEdit(dto.getDateEdit());
+        userEntity.setRole(dto.getRole());
         userEntity.setName(dto.getName());
         userEntity.setEmail(dto.getEmail());
         userEntity.setPassword(dto.getPassword());
@@ -27,6 +30,9 @@ public class UserDtoConverter {
         userDto.setName(userEntity.getName());
         userDto.setId(userEntity.getUuid());
         userDto.setEmail(userEntity.getEmail());
+        userDto.setDateCreate(userEntity.getDateCreate());
+        userDto.setDateEdit(userEntity.getDateEdit());
+        userDto.setRole(userEntity.getRole());
         userDto.setTasks(convertTasksToDto(taskEntities));
         return userDto;
     }

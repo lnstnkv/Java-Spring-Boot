@@ -1,10 +1,13 @@
 create table users
 (
-    id varchar(255) not null
+    id          varchar(255) not null
         primary key,
-    email    varchar(255),
-    name     varchar(255),
-    password varchar(255)
+    date_create date,
+    date_edit   date,
+    email       varchar(255),
+    name        varchar(255),
+    password    varchar(255),
+    role        varchar(255)
 );
 
 alter table users
@@ -24,4 +27,5 @@ create table tasks
 
 alter table tasks
     owner to hits;
+
 
