@@ -1,21 +1,14 @@
 package ru.tsu.hits.springdb1.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tsu.hits.springdb1.dto.CreateUpdateTasksDto;
 import ru.tsu.hits.springdb1.dto.TaskDto;
-import ru.tsu.hits.springdb1.dto.UserDto;
-import ru.tsu.hits.springdb1.dto.converter.TaskDtoConverter;
-import ru.tsu.hits.springdb1.dto.converter.UserDtoConverter;
 import ru.tsu.hits.springdb1.entity.TaskEntity;
-import ru.tsu.hits.springdb1.entity.UserEntity;
-import ru.tsu.hits.springdb1.exception.UserNotFoundException;
-import ru.tsu.hits.springdb1.repository.TaskRepository;
-import ru.tsu.hits.springdb1.repository.UserRepository;
 
-import java.util.List;
+import ru.tsu.hits.springdb1.repository.TaskRepository;
+
 import java.util.UUID;
 
 @Service
