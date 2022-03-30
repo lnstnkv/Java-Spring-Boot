@@ -37,7 +37,10 @@ public class TaskService {
      */
     @Transactional
     public TaskDto save(CreateUpdateTasksDto createUpdateTasksDto){
-        var createdUser=userService.getEntityToById(createUpdateTasksDto.getUserId());
+
+        var createdUser=userService.getUserEntityById(createUpdateTasksDto.getUsers_id());
+
+        System.out.println(createdUser);
         var entity = new TaskEntity(
                 UUID.randomUUID().toString(),
                 createUpdateTasksDto.getHeader(),
@@ -52,7 +55,7 @@ public class TaskService {
                 savedEntity.getDescription(),
                 savedEntity.getHeader(),
                 savedEntity.getPriority(),
-                createdUser.getUuid()
+                createdUser.getName()
         );
     }
 

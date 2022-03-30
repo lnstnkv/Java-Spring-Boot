@@ -42,9 +42,10 @@ public class UserEntity {
    /* @Enumerated(EnumType.STRING)
     @Column
     private Role role;
-
     */
+
     @OneToMany(mappedBy = "createdUser")
     private List<TaskEntity> tasks;
+
 
 }

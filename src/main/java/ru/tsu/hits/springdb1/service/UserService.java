@@ -37,7 +37,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserEntity getEntityToById(String id){
+    public UserEntity getUserEntityById(String id){
         return userRepository.findById(id)
                 .orElseThrow(()->new UserNotFoundException("Пользователь с id" + id + " не найден"));
 
@@ -45,7 +45,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDto getUserDtoById(String id) {
-        UserEntity userEntity=getEntityToById(id);
+        UserEntity userEntity=getUserEntityById(id);
         return UserDtoConverter.converterEntityToDto(userEntity,getTasksByUser(userEntity));
     }
 
