@@ -11,6 +11,8 @@ import ru.tsu.hits.springdb1.dto.converter.ProjectDtoConverter;
 import ru.tsu.hits.springdb1.dto.converter.UserDtoConverter;
 import ru.tsu.hits.springdb1.entity.ProjectEntity;
 import ru.tsu.hits.springdb1.entity.UserEntity;
+import ru.tsu.hits.springdb1.exception.ProjectNotFoundException;
+import ru.tsu.hits.springdb1.exception.UserNotFoundException;
 import ru.tsu.hits.springdb1.repository.ProjectRepository;
 import ru.tsu.hits.springdb1.repository.TaskRepository;
 
@@ -27,4 +29,17 @@ public class ProjectService {
         return ProjectDtoConverter.converterEntityToDto(projectEntity);
 
     }
+    @Transactional(readOnly = true)
+    public ProjectEntity getProjectEntityById(String id){
+        return projectRepository.findById(id)
+                .orElseThrow(()->new ProjectNotFoundException("Проект с id" + id + " не найден"));
+
+    }
+
+    @Transactional(readOnly = true)
+    public ProjectDto getProjectDtoById(String id) {
+        ProjectEntity projectEntity=getProjectEntityById(id);
+        return ProjectDtoConverter.converterEntityToDto(projectEntity);
+    }
+
 }

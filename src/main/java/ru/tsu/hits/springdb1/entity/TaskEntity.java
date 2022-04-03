@@ -3,7 +3,6 @@ package ru.tsu.hits.springdb1.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.util.List;
@@ -31,4 +30,8 @@ public class TaskEntity {
    @ManyToOne()
    @JoinColumn(name="users_id", referencedColumnName = "id")
     private UserEntity createdUser;
+
+   @ManyToMany(mappedBy = "comment_tasks")
+    private List<CommentEntity> comments;
+
 }

@@ -2,10 +2,7 @@ package ru.tsu.hits.springdb1.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.tsu.hits.springdb1.dto.CreateUpdateTasksDto;
-import ru.tsu.hits.springdb1.dto.CreateUserDto;
-import ru.tsu.hits.springdb1.dto.TaskDto;
-import ru.tsu.hits.springdb1.dto.UserDto;
+import ru.tsu.hits.springdb1.dto.*;
 import ru.tsu.hits.springdb1.service.TaskService;
 import ru.tsu.hits.springdb1.service.UserService;
 
@@ -24,4 +21,8 @@ public class TaskController {
         return taskService.save(createUpdateTasksDto);
     }
 
+    @GetMapping(value = "/{id}")
+    public TaskDto getProjectById(@PathVariable String id) {
+        return taskService.getTaskDtoById(id);
+    }
 }
