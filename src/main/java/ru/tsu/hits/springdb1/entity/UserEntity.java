@@ -42,7 +42,7 @@ public class UserEntity {
     private Role role;
 
 
-    @OneToMany(mappedBy = "createdUser")
+    @OneToMany(mappedBy = "createdUser", fetch = FetchType.LAZY)
     private List<TaskEntity> tasks;
 
     @OneToMany(mappedBy = "createdUserComments")

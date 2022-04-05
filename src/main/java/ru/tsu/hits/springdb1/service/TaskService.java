@@ -7,8 +7,10 @@ import ru.tsu.hits.springdb1.dto.CreateUpdateTasksDto;
 import ru.tsu.hits.springdb1.dto.ProjectDto;
 import ru.tsu.hits.springdb1.dto.TaskDto;
 import ru.tsu.hits.springdb1.dto.UserDto;
+import ru.tsu.hits.springdb1.dto.converter.CommentDtoConverter;
 import ru.tsu.hits.springdb1.dto.converter.TaskDtoConverter;
 import ru.tsu.hits.springdb1.dto.converter.UserDtoConverter;
+import ru.tsu.hits.springdb1.entity.CommentEntity;
 import ru.tsu.hits.springdb1.entity.TaskEntity;
 
 import ru.tsu.hits.springdb1.entity.UserEntity;
@@ -22,47 +24,32 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TaskService {
 
-    private final UserService userService;
+    private final ProjectService projectService;
     private final TaskRepository taskRepository;
-    //private final CommentRepository commentRepository;
+    private final UserService userService;
 
     @Transactional
-    public TaskDto save(CreateUpdateTasksDto createUpdateTasksDto){
+    public TaskDto save(CreateUpdateTasksDto createUpdateTasksDto) {
 
+        var projectTasks = projectService.getProjectEntityById(createUpdateTasksDto.getProject_id());
         var createdUser=userService.getUserEntityById(createUpdateTasksDto.getUsers_id());
-      //  var createdComment:
-
-        System.out.println(createdUser);
-        var entity = new TaskEntity(
-                UUID.randomUUID().toString(),
-                createUpdateTasksDto.getHeader(),
-                createUpdateTasksDto.getDescription(),
-                createUpdateTasksDto.getPriority(),
-                createdUser
-                );
-
-        var savedEntity = taskRepository.save(entity);
-        return new TaskDto(
-                savedEntity.getUuid(),
-                savedEntity.getDescription(),
-                savedEntity.getHeader(),
-                savedEntity.getPriority(),
-                createdUser.getName()
-        );
+        TaskEntity taskEntity = TaskDtoConverter.converterDtoToEntity(createUpdateTasksDto, projectTasks,createdUser);
+        taskEntity = taskRepository.save(taskEntity);
+        return TaskDtoConverter.converterEntityWithProjectToDto(taskEntity, projectTasks,createdUser);
     }
+
     @Transactional(readOnly = true)
-    public TaskEntity getTaskEntityById(String id){
+    public TaskEntity getTaskEntityById(String id) {
         return taskRepository.findById(id)
-                .orElseThrow(()->new UserNotFoundException("Задача с id" + id + " не найден"));
+                .orElseThrow(() -> new UserNotFoundException("Задача с id" + id + " не найден"));
 
     }
 
     @Transactional(readOnly = true)
     public TaskDto getTaskDtoById(String id) {
-        TaskEntity taskEntity=getTaskEntityById(id);
+        TaskEntity taskEntity = getTaskEntityById(id);
         return TaskDtoConverter.converterEntityToDto(taskEntity);
     }
-
 
 
 }

@@ -10,11 +10,14 @@ import ru.tsu.hits.springdb1.dto.UserDto;
 import ru.tsu.hits.springdb1.dto.converter.ProjectDtoConverter;
 import ru.tsu.hits.springdb1.dto.converter.UserDtoConverter;
 import ru.tsu.hits.springdb1.entity.ProjectEntity;
+import ru.tsu.hits.springdb1.entity.TaskEntity;
 import ru.tsu.hits.springdb1.entity.UserEntity;
 import ru.tsu.hits.springdb1.exception.ProjectNotFoundException;
 import ru.tsu.hits.springdb1.exception.UserNotFoundException;
 import ru.tsu.hits.springdb1.repository.ProjectRepository;
 import ru.tsu.hits.springdb1.repository.TaskRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,13 +25,13 @@ public class ProjectService {
 
     private final UserService userService;
     private final ProjectRepository projectRepository;
-
+    private final TaskRepository taskRepository;
     @Transactional
     public ProjectDto save(CreateUpdateProjectDto createUpdateProjectDto) {
-       // var createdUser=userService.getUserEntityById(createUpdateProjectDto);
+      //  var createdUser=userService.getUserEntityById(createUpdateProjectDto);
         ProjectEntity projectEntity = ProjectDtoConverter.converterDtoToEntity(createUpdateProjectDto);
         projectEntity = projectRepository.save(projectEntity);
-        return ProjectDtoConverter.converterEntityToDto(projectEntity);
+        return ProjectDtoConverter.converterEntityToDto(projectEntity,getTasksByProject(projectEntity));
 
     }
     @Transactional(readOnly = true)
@@ -41,7 +44,10 @@ public class ProjectService {
     @Transactional(readOnly = true)
     public ProjectDto getProjectDtoById(String id) {
         ProjectEntity projectEntity=getProjectEntityById(id);
-        return ProjectDtoConverter.converterEntityToDto(projectEntity);
+        return ProjectDtoConverter.converterEntityToDto(projectEntity,getTasksByProject(projectEntity));
+    }
+    public List<TaskEntity> getTasksByProject(ProjectEntity projectEntity) {
+        return taskRepository.findByProject(projectEntity);
     }
 
 }

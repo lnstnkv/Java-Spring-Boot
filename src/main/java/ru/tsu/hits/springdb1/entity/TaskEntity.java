@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,13 +24,29 @@ public class TaskEntity {
     @Column
     private String description;
 
+    @Column
+    private Integer timeEstimate;
+
     @Enumerated(EnumType.STRING)
     @Column
     private Priority priority;
 
-   @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="project_id", referencedColumnName = "id")
+    private ProjectEntity project;
+
+
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name="users_id", referencedColumnName = "id")
     private UserEntity createdUser;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_create")
+    private Date dateCreate;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_edit")
+    private Date dateEdit;
 
   /* @ManyToMany(mappedBy = "comment_tasks")
     private List<CommentEntity> comments;

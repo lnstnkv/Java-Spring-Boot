@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "projects")
@@ -31,4 +32,7 @@ public class ProjectEntity {
 
     @Column
     private String description;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    private List<TaskEntity> tasks;
 }

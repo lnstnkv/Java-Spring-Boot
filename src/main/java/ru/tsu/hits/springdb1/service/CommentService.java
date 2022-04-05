@@ -21,12 +21,13 @@ import ru.tsu.hits.springdb1.repository.ProjectRepository;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-
+    private final UserService userService;
     @Transactional
     public CommentDto save(CreateUpdateComment createUpdateComment) {
-        CommentEntity commentEntity = CommentDtoConverter.converterDtoToEntity(createUpdateComment);
+        var createdUser=userService.getUserEntityById(createUpdateComment.getUsers_id());
+        CommentEntity commentEntity = CommentDtoConverter.converterDtoToEntity(createUpdateComment, createdUser);
         commentEntity = commentRepository.save(commentEntity);
-        return CommentDtoConverter.converterEntityToDto(commentEntity);
+        return CommentDtoConverter.converterEntityWithUserToDto(commentEntity,createdUser);
 
     }
     @Transactional(readOnly = true)
