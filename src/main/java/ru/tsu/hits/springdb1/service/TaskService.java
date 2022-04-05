@@ -13,6 +13,7 @@ import ru.tsu.hits.springdb1.entity.TaskEntity;
 
 import ru.tsu.hits.springdb1.entity.UserEntity;
 import ru.tsu.hits.springdb1.exception.UserNotFoundException;
+import ru.tsu.hits.springdb1.repository.CommentRepository;
 import ru.tsu.hits.springdb1.repository.TaskRepository;
 
 import java.util.UUID;
@@ -23,12 +24,13 @@ public class TaskService {
 
     private final UserService userService;
     private final TaskRepository taskRepository;
-
+    //private final CommentRepository commentRepository;
 
     @Transactional
     public TaskDto save(CreateUpdateTasksDto createUpdateTasksDto){
 
         var createdUser=userService.getUserEntityById(createUpdateTasksDto.getUsers_id());
+      //  var createdComment:
 
         System.out.println(createdUser);
         var entity = new TaskEntity(

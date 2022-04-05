@@ -31,7 +31,9 @@ public class TaskEntity {
    @JoinColumn(name="users_id", referencedColumnName = "id")
     private UserEntity createdUser;
 
-   @ManyToMany(mappedBy = "comment_tasks")
+  /* @ManyToMany(mappedBy = "comment_tasks")
     private List<CommentEntity> comments;
+
+   */
 
 }

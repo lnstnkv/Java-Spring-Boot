@@ -45,5 +45,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "createdUser")
     private List<TaskEntity> tasks;
 
+    @OneToMany(mappedBy = "createdUserComments")
+    private List<CommentEntity> comments;
 
 }

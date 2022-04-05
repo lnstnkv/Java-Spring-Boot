@@ -1,8 +1,10 @@
 package ru.tsu.hits.springdb1.dto.converter;
 
+import ru.tsu.hits.springdb1.dto.CommentDto;
 import ru.tsu.hits.springdb1.dto.CreateUserDto;
 import ru.tsu.hits.springdb1.dto.TaskDto;
 import ru.tsu.hits.springdb1.dto.UserDto;
+import ru.tsu.hits.springdb1.entity.CommentEntity;
 import ru.tsu.hits.springdb1.entity.TaskEntity;
 import ru.tsu.hits.springdb1.entity.UserEntity;
 
@@ -25,7 +27,7 @@ public class UserDtoConverter {
         return userEntity;
     }
 
-    public static UserDto converterEntityToDto(UserEntity userEntity, List<TaskEntity> taskEntities) {
+    public static UserDto converterEntityToDto(UserEntity userEntity, List<TaskEntity> taskEntities, List<CommentEntity> commentEntities) {
         UserDto userDto = new UserDto();
         userDto.setName(userEntity.getName());
         userDto.setId(userEntity.getUuid());
@@ -34,6 +36,7 @@ public class UserDtoConverter {
         userDto.setDateEdit(userEntity.getDateEdit());
         userDto.setRole(userEntity.getRole());
         userDto.setTasks(convertTasksToDto(taskEntities));
+        userDto.setComments(convertCommentToDto(commentEntities));
         return userDto;
     }
 
@@ -41,7 +44,7 @@ public class UserDtoConverter {
         List<TaskDto> result = new ArrayList<>();
         taskEntities.forEach(element -> {
             TaskDto taskDto = new TaskDto();
-            taskDto.setUsers_id(element.getUuid());
+            taskDto.setId(element.getUuid());
             taskDto.setUsers_id(element.getCreatedUser().getName());
             taskDto.setDescription(element.getDescription());
             taskDto.setHeader(element.getHeader());
@@ -51,4 +54,21 @@ public class UserDtoConverter {
         });
         return result;
     }
+
+    private static List<CommentDto> convertCommentToDto(List<CommentEntity> commentEntities) {
+        List<CommentDto> result = new ArrayList<>();
+        commentEntities.forEach(element -> {
+            CommentDto commentDto = new CommentDto();
+            commentDto.setUuid(element.getUuid());
+            commentDto.setUsers_id(element.getCreatedUserComments().getName());
+            commentDto.setText(element.getText());
+            commentDto.setDateCreate(element.getDateCreate());
+            commentDto.setDateEdit(element.getDateEdit());
+
+            result.add(commentDto);
+        });
+        return result;
+
+    }
+
 }

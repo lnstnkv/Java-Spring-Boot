@@ -28,6 +28,9 @@ public class CommentEntity {
     @Column
     private String text;
 
+    @ManyToOne()
+    @JoinColumn(name="users_id", referencedColumnName = "id")
+    private UserEntity createdUserComments;
   /*  @ManyToMany
     @JoinTable(name="comment_tasks",
             joinColumns = @JoinColumn(name = "comment_id"),

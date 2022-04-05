@@ -20,10 +20,12 @@ import ru.tsu.hits.springdb1.repository.TaskRepository;
 @RequiredArgsConstructor
 public class ProjectService {
 
+    private final UserService userService;
     private final ProjectRepository projectRepository;
 
     @Transactional
     public ProjectDto save(CreateUpdateProjectDto createUpdateProjectDto) {
+       // var createdUser=userService.getUserEntityById(createUpdateProjectDto);
         ProjectEntity projectEntity = ProjectDtoConverter.converterDtoToEntity(createUpdateProjectDto);
         projectEntity = projectRepository.save(projectEntity);
         return ProjectDtoConverter.converterEntityToDto(projectEntity);

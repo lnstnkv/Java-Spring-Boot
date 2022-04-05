@@ -16,4 +16,5 @@ public class CommentDto {
     private Date dateCreate;
     private Date dateEdit;
     private String text;
+    private String users_id;
 }
