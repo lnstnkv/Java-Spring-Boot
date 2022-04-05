@@ -37,8 +37,12 @@ public class TaskEntity {
 
 
    @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name="users_id", referencedColumnName = "id")
+   @JoinColumn(name="creator_id", referencedColumnName = "id")
     private UserEntity createdUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="performer_id", referencedColumnName = "id")
+    private UserEntity performerUser;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "date_create")

@@ -17,6 +17,7 @@ import ru.tsu.hits.springdb1.exception.UserNotFoundException;
 import ru.tsu.hits.springdb1.repository.ProjectRepository;
 import ru.tsu.hits.springdb1.repository.TaskRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -27,7 +28,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
     @Transactional
-    public ProjectDto save(CreateUpdateProjectDto createUpdateProjectDto) {
+    public ProjectDto save(@Valid CreateUpdateProjectDto createUpdateProjectDto) {
       //  var createdUser=userService.getUserEntityById(createUpdateProjectDto);
         ProjectEntity projectEntity = ProjectDtoConverter.converterDtoToEntity(createUpdateProjectDto);
         projectEntity = projectRepository.save(projectEntity);

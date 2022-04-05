@@ -16,6 +16,8 @@ import ru.tsu.hits.springdb1.exception.ProjectNotFoundException;
 import ru.tsu.hits.springdb1.repository.CommentRepository;
 import ru.tsu.hits.springdb1.repository.ProjectRepository;
 
+import javax.validation.Valid;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -23,7 +25,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final UserService userService;
     @Transactional
-    public CommentDto save(CreateUpdateComment createUpdateComment) {
+    public CommentDto save( @Valid CreateUpdateComment createUpdateComment) {
         var createdUser=userService.getUserEntityById(createUpdateComment.getUsers_id());
         CommentEntity commentEntity = CommentDtoConverter.converterDtoToEntity(createUpdateComment, createdUser);
         commentEntity = commentRepository.save(commentEntity);

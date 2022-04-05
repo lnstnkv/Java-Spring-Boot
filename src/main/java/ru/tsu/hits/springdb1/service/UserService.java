@@ -37,6 +37,11 @@ public class UserService {
     public List<TaskEntity> getTasksByUser(UserEntity userEntity) {
         return taskRepository.findByCreatedUser(userEntity);
     }
+
+    public List<TaskEntity> getTasksByPerformer(UserEntity userEntity) {
+        return taskRepository.findByPerformerUser(userEntity);
+    }
+
     public List<CommentEntity> getTasksByUserComments(UserEntity userEntity) {
         return commentRepository.findByCreatedUserComments(userEntity);
     }

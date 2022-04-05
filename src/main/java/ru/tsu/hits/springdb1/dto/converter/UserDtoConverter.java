@@ -35,7 +35,8 @@ public class UserDtoConverter {
         userDto.setDateCreate(userEntity.getDateCreate());
         userDto.setDateEdit(userEntity.getDateEdit());
         userDto.setRole(userEntity.getRole());
-        userDto.setTasks(convertTasksToDto(taskEntities));
+        userDto.setCreateTasks(convertTasksToDto(taskEntities));
+        userDto.setEditTasks(convertTasksToDto(taskEntities));
         userDto.setComments(convertCommentToDto(commentEntities));
         return userDto;
     }
@@ -45,7 +46,8 @@ public class UserDtoConverter {
         taskEntities.forEach(element -> {
             TaskDto taskDto = new TaskDto();
             taskDto.setId(element.getUuid());
-            taskDto.setUsers_id(element.getCreatedUser().getName());
+            taskDto.setCreator_id(element.getCreatedUser().getName());
+            taskDto.setPerformer_id(element.getPerformerUser().getName());
             taskDto.setDescription(element.getDescription());
             taskDto.setHeader(element.getHeader());
             taskDto.setPriority(element.getPriority());

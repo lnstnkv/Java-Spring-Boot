@@ -6,6 +6,8 @@ import ru.tsu.hits.springdb1.dto.*;
 import ru.tsu.hits.springdb1.service.ProjectService;
 import ru.tsu.hits.springdb1.service.TaskService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/project")
 @RequiredArgsConstructor
@@ -13,7 +15,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping
-    public ProjectDto save(@RequestBody CreateUpdateProjectDto createUpdateProjectDto) {
+    public ProjectDto save( @Valid @RequestBody CreateUpdateProjectDto createUpdateProjectDto) {
 
         return projectService.save(createUpdateProjectDto);
     }

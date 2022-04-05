@@ -18,6 +18,7 @@ import ru.tsu.hits.springdb1.exception.UserNotFoundException;
 import ru.tsu.hits.springdb1.repository.CommentRepository;
 import ru.tsu.hits.springdb1.repository.TaskRepository;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @Service
@@ -29,13 +30,14 @@ public class TaskService {
     private final UserService userService;
 
     @Transactional
-    public TaskDto save(CreateUpdateTasksDto createUpdateTasksDto) {
+    public TaskDto save(@Valid CreateUpdateTasksDto createUpdateTasksDto) {
 
         var projectTasks = projectService.getProjectEntityById(createUpdateTasksDto.getProject_id());
-        var createdUser=userService.getUserEntityById(createUpdateTasksDto.getUsers_id());
-        TaskEntity taskEntity = TaskDtoConverter.converterDtoToEntity(createUpdateTasksDto, projectTasks,createdUser);
+        var createdUser=userService.getUserEntityById(createUpdateTasksDto.getCreator_id());
+        var performer=userService.getUserEntityById(createUpdateTasksDto.getPerformer_id());
+        TaskEntity taskEntity = TaskDtoConverter.converterDtoToEntity(createUpdateTasksDto, projectTasks,createdUser,performer);
         taskEntity = taskRepository.save(taskEntity);
-        return TaskDtoConverter.converterEntityWithProjectToDto(taskEntity, projectTasks,createdUser);
+        return TaskDtoConverter.converterEntityWithProjectToDto(taskEntity, projectTasks,createdUser,performer);
     }
 
     @Transactional(readOnly = true)

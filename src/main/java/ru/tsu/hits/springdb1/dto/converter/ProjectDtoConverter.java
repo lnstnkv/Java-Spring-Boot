@@ -41,7 +41,8 @@ public class ProjectDtoConverter {
         taskEntities.forEach(element -> {
             TaskDto taskDto = new TaskDto();
             taskDto.setId(element.getUuid());
-            taskDto.setUsers_id(element.getCreatedUser().getName());
+            taskDto.setCreator_id(element.getCreatedUser().getName());
+            taskDto.setPerformer_id(element.getPerformerUser().getName());
             taskDto.setDescription(element.getDescription());
             taskDto.setHeader(element.getHeader());
             taskDto.setPriority(element.getPriority());

@@ -6,6 +6,7 @@ import ru.tsu.hits.springdb1.dto.*;
 import ru.tsu.hits.springdb1.service.TaskService;
 import ru.tsu.hits.springdb1.service.UserService;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -16,7 +17,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping
-    public TaskDto save(@RequestBody CreateUpdateTasksDto createUpdateTasksDto) {
+    public TaskDto save(@Valid @RequestBody CreateUpdateTasksDto createUpdateTasksDto) {
 
         return taskService.save(createUpdateTasksDto);
     }

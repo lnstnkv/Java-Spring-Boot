@@ -9,6 +9,8 @@ import ru.tsu.hits.springdb1.dto.ProjectDto;
 import ru.tsu.hits.springdb1.service.CommentService;
 import ru.tsu.hits.springdb1.service.ProjectService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/comment")
 @RequiredArgsConstructor
@@ -16,7 +18,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public CommentDto save(@RequestBody CreateUpdateComment createUpdateComment) {
+    public CommentDto save( @Valid @RequestBody CreateUpdateComment createUpdateComment) {
 
         return commentService.save(createUpdateComment);
     }

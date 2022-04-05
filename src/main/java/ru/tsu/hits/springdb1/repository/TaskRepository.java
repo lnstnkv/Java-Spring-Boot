@@ -12,6 +12,8 @@ public interface TaskRepository extends CrudRepository<TaskEntity,String> {
 
     List<TaskEntity> findByCreatedUser(UserEntity userEntity);
 
+    List<TaskEntity> findByPerformerUser(UserEntity userEntity);
+
     List<TaskEntity> findByProject(ProjectEntity projectEntity);
 
 }

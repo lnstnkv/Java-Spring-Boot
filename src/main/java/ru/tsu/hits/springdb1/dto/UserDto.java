@@ -22,5 +22,6 @@ public class UserDto {
         private Date dateEdit;
         private Role role;
         private List<CommentDto> comments;
-        private List<TaskDto> tasks;
+        private List<TaskDto> createTasks;
+        private List<TaskDto> editTasks;
 }
