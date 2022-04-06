@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "comments")
@@ -29,16 +30,15 @@ public class CommentEntity {
     private String text;
 
     @ManyToOne()
-    @JoinColumn(name="users_id", referencedColumnName = "id")
+    @JoinColumn(name = "users_id", referencedColumnName = "id")
     private UserEntity createdUserComments;
-  /*  @ManyToMany
-    @JoinTable(name="comment_tasks",
+/*
+    @ManyToMany
+    @JoinTable(name = "comment_tasks",
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id"))
-    private List<TaskEntity> taskEntityList ;
-    @ManyToOne()
-    @JoinColumn(name="users_id", referencedColumnName = "id")
-    private UserEntity createdUserComment;
+    private List<TaskEntity> taskEntityList;
 
-   */
+
+ */
 }

@@ -1,6 +1,7 @@
 package ru.tsu.hits.springdb1.dto;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -10,7 +11,7 @@ public class CreateUpdateComment {
     private Date dateCreate;
     private Date dateEdit;
     @NotBlank
-    @Min(10)
+    @Length(min=10)
     private String text;
     private String users_id;
 }

@@ -27,7 +27,7 @@ public class UserDtoConverter {
         return userEntity;
     }
 
-    public static UserDto converterEntityToDto(UserEntity userEntity, List<TaskEntity> taskEntities, List<CommentEntity> commentEntities) {
+    public static UserDto converterEntityToDto(UserEntity userEntity, List<TaskEntity> taskEntities, List<TaskEntity> taskEntitiesEdit, List<CommentEntity> commentEntities) {
         UserDto userDto = new UserDto();
         userDto.setName(userEntity.getName());
         userDto.setId(userEntity.getUuid());
@@ -36,18 +36,34 @@ public class UserDtoConverter {
         userDto.setDateEdit(userEntity.getDateEdit());
         userDto.setRole(userEntity.getRole());
         userDto.setCreateTasks(convertTasksToDto(taskEntities));
-        userDto.setEditTasks(convertTasksToDto(taskEntities));
+        userDto.setEditTasks(convertTasksToDto(taskEntitiesEdit));
         userDto.setComments(convertCommentToDto(commentEntities));
         return userDto;
     }
-
-    private static List<TaskDto> convertTasksToDto(List<TaskEntity> taskEntities) {
+    public static UserDto converterEntityWithoutTasksToDto(UserEntity userEntity) {
+        UserDto userDto = new UserDto();
+        userDto.setName(userEntity.getName());
+        userDto.setId(userEntity.getUuid());
+        userDto.setEmail(userEntity.getEmail());
+        userDto.setDateCreate(userEntity.getDateCreate());
+        userDto.setDateEdit(userEntity.getDateEdit());
+        userDto.setRole(userEntity.getRole());
+        userDto.setCreateTasks(convertTasksToDto(userEntity.getCreateTasks()));
+        userDto.setEditTasks(convertTasksToDto(userEntity.getEditTasks()));
+        userDto.setComments(convertCommentToDto(userEntity.getComments()));
+        return userDto;
+    }
+    public static List<TaskDto> convertTasksToDto(List<TaskEntity> taskEntities) {
         List<TaskDto> result = new ArrayList<>();
         taskEntities.forEach(element -> {
             TaskDto taskDto = new TaskDto();
             taskDto.setId(element.getUuid());
             taskDto.setCreator_id(element.getCreatedUser().getName());
             taskDto.setPerformer_id(element.getPerformerUser().getName());
+            taskDto.setDateCreate(element.getDateCreate());
+            taskDto.setDateEdit(element.getDateEdit());
+            taskDto.setTimeEstimate(element.getTimeEstimate());
+            taskDto.setProject_id(element.getProject().getName());
             taskDto.setDescription(element.getDescription());
             taskDto.setHeader(element.getHeader());
             taskDto.setPriority(element.getPriority());

@@ -52,9 +52,9 @@ public class TaskEntity {
     @Column(name = "date_edit")
     private Date dateEdit;
 
-  /* @ManyToMany(mappedBy = "comment_tasks")
+    /*@ManyToMany(mappedBy = "comment_tasks")
     private List<CommentEntity> comments;
 
-   */
 
+     */
 }

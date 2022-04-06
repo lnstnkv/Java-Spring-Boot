@@ -3,6 +3,7 @@ package ru.tsu.hits.springdb1.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import ru.tsu.hits.springdb1.dto.CreateUpdateTasksDto;
 import ru.tsu.hits.springdb1.dto.ProjectDto;
 import ru.tsu.hits.springdb1.dto.TaskDto;
@@ -11,6 +12,7 @@ import ru.tsu.hits.springdb1.dto.converter.CommentDtoConverter;
 import ru.tsu.hits.springdb1.dto.converter.TaskDtoConverter;
 import ru.tsu.hits.springdb1.dto.converter.UserDtoConverter;
 import ru.tsu.hits.springdb1.entity.CommentEntity;
+import ru.tsu.hits.springdb1.entity.ProjectEntity;
 import ru.tsu.hits.springdb1.entity.TaskEntity;
 
 import ru.tsu.hits.springdb1.entity.UserEntity;
@@ -19,9 +21,11 @@ import ru.tsu.hits.springdb1.repository.CommentRepository;
 import ru.tsu.hits.springdb1.repository.TaskRepository;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class TaskService {
 
@@ -53,5 +57,29 @@ public class TaskService {
         return TaskDtoConverter.converterEntityToDto(taskEntity);
     }
 
+    @Transactional
+    public List<TaskEntity> getTasksEntityByPerformer(UserEntity userEntity) {
+        return taskRepository.findByPerformerUser(userEntity);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TaskDto> getTasksDtoByPerformer(String id) {
+        var user=userService.getUserEntityById(id);
+        List<TaskEntity> taskEntity = getTasksEntityByPerformer(user);
+        return UserDtoConverter.convertTasksToDto(taskEntity);
+    }
+
+
+    @Transactional
+    public List<TaskEntity> getTasksEntityByProject(ProjectEntity projectEntity) {
+        return taskRepository.findByProject(projectEntity);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TaskDto> getTasksDtoByProject(String id) {
+        var project=projectService.getProjectEntityById(id);
+        List<TaskEntity> taskEntity = getTasksEntityByProject(project);
+        return UserDtoConverter.convertTasksToDto(taskEntity);
+    }
 
 }

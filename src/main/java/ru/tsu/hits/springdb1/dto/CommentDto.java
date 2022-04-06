@@ -3,6 +3,7 @@ package ru.tsu.hits.springdb1.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Temporal;
@@ -18,7 +19,7 @@ public class CommentDto {
     private Date dateCreate;
     private Date dateEdit;
     @NotBlank
-    @Min(10)
+    @Length(min=10)
     private String text;
     private String users_id;
 }

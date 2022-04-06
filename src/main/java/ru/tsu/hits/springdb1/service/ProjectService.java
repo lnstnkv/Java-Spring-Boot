@@ -3,6 +3,7 @@ package ru.tsu.hits.springdb1.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import ru.tsu.hits.springdb1.dto.CreateUpdateProjectDto;
 import ru.tsu.hits.springdb1.dto.CreateUserDto;
 import ru.tsu.hits.springdb1.dto.ProjectDto;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class ProjectService {
 
@@ -47,6 +49,7 @@ public class ProjectService {
         ProjectEntity projectEntity=getProjectEntityById(id);
         return ProjectDtoConverter.converterEntityToDto(projectEntity,getTasksByProject(projectEntity));
     }
+
     public List<TaskEntity> getTasksByProject(ProjectEntity projectEntity) {
         return taskRepository.findByProject(projectEntity);
     }

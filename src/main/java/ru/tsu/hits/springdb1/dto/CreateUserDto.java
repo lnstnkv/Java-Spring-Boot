@@ -12,6 +12,7 @@ public class CreateUserDto {
     private String name;
     private String email;
     private String password;
+
     private Date dateCreate;
     private Date dateEdit;
     private Role role;

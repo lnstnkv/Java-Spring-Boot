@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 import ru.tsu.hits.springdb1.dto.CreateUserDto;
+import ru.tsu.hits.springdb1.dto.FetchUsersDto;
+import ru.tsu.hits.springdb1.dto.TaskDto;
 import ru.tsu.hits.springdb1.dto.UserDto;
 import ru.tsu.hits.springdb1.service.UserService;
 
@@ -28,5 +30,9 @@ public class UserController {
         return userService.getUserDtoById(id);
     }
 
+    @PostMapping(value = "/fetch")
+    public List<UserDto> fetchUsers(@RequestBody FetchUsersDto dto) {
+        return userService.fetchUsers(dto);
+    }
 
 }

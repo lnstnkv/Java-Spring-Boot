@@ -3,6 +3,7 @@ package ru.tsu.hits.springdb1.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import ru.tsu.hits.springdb1.dto.CommentDto;
 import ru.tsu.hits.springdb1.dto.CreateUpdateComment;
 import ru.tsu.hits.springdb1.dto.CreateUpdateProjectDto;
@@ -19,6 +20,7 @@ import ru.tsu.hits.springdb1.repository.ProjectRepository;
 import javax.validation.Valid;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class CommentService {
 
