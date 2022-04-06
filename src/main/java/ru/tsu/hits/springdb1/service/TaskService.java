@@ -4,25 +4,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import ru.tsu.hits.springdb1.dto.CreateUpdateTasksDto;
-import ru.tsu.hits.springdb1.dto.ProjectDto;
-import ru.tsu.hits.springdb1.dto.TaskDto;
-import ru.tsu.hits.springdb1.dto.UserDto;
+import ru.tsu.hits.springdb1.dto.*;
 import ru.tsu.hits.springdb1.dto.converter.CommentDtoConverter;
 import ru.tsu.hits.springdb1.dto.converter.TaskDtoConverter;
 import ru.tsu.hits.springdb1.dto.converter.UserDtoConverter;
-import ru.tsu.hits.springdb1.entity.CommentEntity;
-import ru.tsu.hits.springdb1.entity.ProjectEntity;
-import ru.tsu.hits.springdb1.entity.TaskEntity;
+import ru.tsu.hits.springdb1.entity.*;
 
-import ru.tsu.hits.springdb1.entity.UserEntity;
 import ru.tsu.hits.springdb1.exception.UserNotFoundException;
 import ru.tsu.hits.springdb1.repository.CommentRepository;
 import ru.tsu.hits.springdb1.repository.TaskRepository;
 
+import javax.persistence.criteria.Predicate;
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Validated
@@ -82,4 +81,40 @@ public class TaskService {
         return UserDtoConverter.convertTasksToDto(taskEntity);
     }
 
+    @Transactional(readOnly = true)
+    public List<TaskDto> fetchTasks(FetchTasksDto dto) {
+        return taskRepository.findAll(((root, query, criteriaBuilder) -> {
+                    var predicates = new ArrayList<>();
+                    dto.getFields().forEach((fieldName, fieldValue) -> {
+                        switch (fieldName) {
+                            case "description":
+                            case "header":
+                                predicates.add(criteriaBuilder.like(root.get(fieldName), '%' + fieldValue + '%'));
+                                break;
+                            case "priority":
+                                predicates.add(criteriaBuilder.equal(root.get(fieldName), Priority.valueOf(fieldValue)));
+                                break;
+                            case "dateCreate":
+                            case "dateEdit":
+                                try {
+                                    predicates.add(criteriaBuilder.equal(root.get(fieldName),new SimpleDateFormat("yyyy-mm-dd").parse(fieldValue)));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case "project_id":
+                            case "performer_id":
+                            case "creator_id":
+                                predicates.add(criteriaBuilder.equal(root.get(fieldName),fieldName));
+                                break;
+                            default:
+                                throw new RuntimeException("Неверное имя поля: " + fieldName);
+                        }
+                    });
+                    return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+                }))
+                .stream()
+                .map(TaskDtoConverter::converterEntityToDto)
+                .collect(Collectors.toList());
+    }
 }

@@ -39,4 +39,9 @@ public class TaskController {
 
         return taskService.getTasksDtoByProject(id);
     }
+
+    @PostMapping(value = "/fetch")
+    public List<TaskDto> fetchUsers(@RequestBody FetchTasksDto dto) {
+        return taskService.fetchTasks(dto);
+    }
 }
