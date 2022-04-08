@@ -2,6 +2,7 @@ package ru.tsu.hits.springdb1.dto.converter;
 
 import lombok.SneakyThrows;
 import ru.tsu.hits.springdb1.dto.*;
+import ru.tsu.hits.springdb1.entity.CommentEntity;
 import ru.tsu.hits.springdb1.entity.ProjectEntity;
 import ru.tsu.hits.springdb1.entity.TaskEntity;
 import ru.tsu.hits.springdb1.csv.ProjectCsv;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import static ru.tsu.hits.springdb1.dto.converter.TaskDtoConverter.getCommentDtos;
 
 public class ProjectDtoConverter {
 
@@ -46,6 +49,7 @@ public class ProjectDtoConverter {
         projectDto.setDateEdit(projectEntity.getDateEdit());
         return projectDto;
     }
+
     public static ProjectEntity converterDtoToEntityForCsb(ProjectDto dto) {
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setUuid(dto.getId());
@@ -57,6 +61,7 @@ public class ProjectDtoConverter {
 
         return projectEntity;
     }
+
     private static List<TaskDto> convertTasksToDto(List<TaskEntity> taskEntities) {
         List<TaskDto> result = new ArrayList<>();
         taskEntities.forEach(element -> {
@@ -67,14 +72,22 @@ public class ProjectDtoConverter {
             taskDto.setDescription(element.getDescription());
             taskDto.setHeader(element.getHeader());
             taskDto.setPriority(element.getPriority());
-
+            taskDto.setDateCreate(element.getDateCreate());
+            taskDto.setDateEdit(element.getDateEdit());
+            taskDto.setTimeEstimate(element.getTimeEstimate());
+            taskDto.setProject_id(element.getProject().getName());
+            //taskDto.setComments(convertCommentToDto(element.getComments()));
             result.add(taskDto);
         });
         return result;
     }
+    private static List<CommentDto> convertCommentToDto(List<CommentEntity> commentEntities) {
+        return getCommentDtos(commentEntities);
+
+    }
 
     @SneakyThrows
-    public static ProjectDto converterScvToDto(ProjectCsv projectCsv){
+    public static ProjectDto converterScvToDto(ProjectCsv projectCsv) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date dateOfCreate = null;
         Date dateOfEdit = null;

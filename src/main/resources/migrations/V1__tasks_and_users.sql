@@ -50,8 +50,6 @@ create table tasks
 alter table tasks
     owner to hits;
 
-
-
 create table comments
 (
     id          varchar(255) not null

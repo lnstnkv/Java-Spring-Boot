@@ -62,6 +62,7 @@ public class TaskDtoConverter {
         taskDto.setPriority(taskEntity.getPriority());
         taskDto.setPerformer_id(taskEntity.getPerformerUser().getName());
         taskDto.setCreator_id(taskEntity.getCreatedUser().getName());
+        taskDto.setComments(convertCommentToDto(taskEntity.getComments()));
         taskDto.setDateEdit(taskEntity.getDateEdit());
         taskDto.setProject_id(taskEntity.getProject().getUuid());
         taskDto.setComments(convertCommentToDto(taskEntity.getComments()));
@@ -83,7 +84,7 @@ public class TaskDtoConverter {
 
     @SneakyThrows
     public static TaskDto converterScvToDto(TaskCsv taskCsv){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date dateOfCreate = null;
         Date dateOfEdit = null;
             dateOfCreate = formatter.parse(taskCsv.getCreationDate());
@@ -111,7 +112,7 @@ public class TaskDtoConverter {
         taskDto.setPriority(taskEntity.getPriority());
         taskDto.setProject_id(project.getUuid());
         taskDto.setCreator_id(userCreated.getName());
-       // taskDto.setComments(convertCommentToDto(taskEntity.getComments()));
+        taskDto.setComments(convertCommentToDto(taskEntity.getComments()));
         taskDto.setPerformer_id(performer.getName());
         taskDto.setDateEdit(taskEntity.getDateEdit());
         taskDto.setDateCreate(taskEntity.getDateCreate());
@@ -132,9 +133,30 @@ public class TaskDtoConverter {
             commentDto.setText(element.getText());
             commentDto.setDateCreate(element.getDateCreate());
             commentDto.setDateEdit(element.getDateEdit());
+            commentDto.setTasks(convertTasksToDto(element.getTasks()));
 
             result.add(commentDto);
         });
         return result;
     }
+    public static List<TaskDto> convertTasksToDto(List<TaskEntity> taskEntities) {
+        List<TaskDto> result = new ArrayList<>();
+        taskEntities.forEach(element -> {
+            TaskDto taskDto = new TaskDto();
+            taskDto.setId(element.getUuid());
+            taskDto.setCreator_id(element.getCreatedUser().getName());
+            taskDto.setPerformer_id(element.getPerformerUser().getName());
+            taskDto.setDateCreate(element.getDateCreate());
+            taskDto.setDateEdit(element.getDateEdit());
+            taskDto.setTimeEstimate(element.getTimeEstimate());
+            taskDto.setProject_id(element.getProject().getName());
+            taskDto.setDescription(element.getDescription());
+            taskDto.setHeader(element.getHeader());
+            taskDto.setPriority(element.getPriority());
+
+            result.add(taskDto);
+        });
+        return result;
+    }
+
 }

@@ -45,7 +45,7 @@ public class ProjectService {
     @Transactional(readOnly = true)
     public ProjectEntity getProjectEntityById(String id) {
         return projectRepository.findById(id)
-                .orElseThrow(() -> new ProjectNotFoundException("Проект с id" + id + " не найден"));
+                .orElseThrow(() -> new ProjectNotFoundException("Проект с id " + id + " не найден"));
 
     }
 
@@ -61,7 +61,7 @@ public class ProjectService {
         return taskRepository.findByProject(projectEntity);
     }
 
-    @Transactional(readOnly = true)
+
     public List<ProjectDto> getCsvToDto() {
 
         var csvStream = Application.class.getResourceAsStream("/projects.csv");

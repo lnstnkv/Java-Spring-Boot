@@ -11,6 +11,7 @@ import ru.tsu.hits.springdb1.dto.converter.TaskDtoConverter;
 import ru.tsu.hits.springdb1.dto.converter.UserDtoConverter;
 import ru.tsu.hits.springdb1.entity.*;
 
+import ru.tsu.hits.springdb1.exception.TaskNotFoundException;
 import ru.tsu.hits.springdb1.exception.UserNotFoundException;
 import ru.tsu.hits.springdb1.repository.CommentRepository;
 import ru.tsu.hits.springdb1.repository.TaskRepository;
@@ -51,7 +52,7 @@ public class TaskService {
     @Transactional(readOnly = true)
     public TaskEntity getTaskEntityById(String id) {
         return taskRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("Задача с id " + id + " не найден"));
+                .orElseThrow(() -> new TaskNotFoundException("Задача с id " + id + " не найдена"));
 
     }
 
@@ -61,7 +62,7 @@ public class TaskService {
         return TaskDtoConverter.converterEntityToDto(taskEntity);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<TaskEntity> getTasksEntityByPerformer(UserEntity userEntity) {
         return taskRepository.findByPerformerUser(userEntity);
     }
@@ -80,7 +81,7 @@ public class TaskService {
         return commentDto.getTasks();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<TaskEntity> getTasksEntityByProject(ProjectEntity projectEntity) {
         return taskRepository.findByProject(projectEntity);
     }
@@ -92,7 +93,7 @@ public class TaskService {
         return UserDtoConverter.convertTasksToDto(taskEntity);
     }
 
-    @Transactional(readOnly = true)
+
     public List<TaskDto> getCsvToDto() {
 
         var csvStream = Application.class.getResourceAsStream("/tasks.csv");

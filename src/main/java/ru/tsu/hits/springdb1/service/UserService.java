@@ -46,16 +46,16 @@ public class UserService {
         return UserDtoConverter.converterEntityToDto(userEntity, getTasksByCreator(userEntity), getTasksByPerformer(userEntity), getTasksByUserComments(userEntity));
 
     }
-
+    @Transactional(readOnly = true)
     public List<TaskEntity> getTasksByCreator(UserEntity userEntity) {
         return taskRepository.findByCreatedUser(userEntity);
     }
-
+    @Transactional(readOnly = true)
     public List<TaskEntity> getTasksByPerformer(UserEntity userEntity) {
         return taskRepository.findByPerformerUser(userEntity);
     }
 
-
+    @Transactional(readOnly = true)
     public List<CommentEntity> getTasksByUserComments(UserEntity userEntity) {
         return commentRepository.findByCreatedUserComments(userEntity);
     }
@@ -63,7 +63,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserEntity getUserEntityById(String id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("Пользователь с id" + id + " не найден"));
+                .orElseThrow(() -> new UserNotFoundException("Пользователь с id " + id + " не найден"));
 
     }
 
@@ -113,7 +113,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
+
     public List<UserDto> getCsvToDto() {
 
         var csvStream = Application.class.getResourceAsStream("/users.csv");

@@ -4,10 +4,7 @@ import lombok.SneakyThrows;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.tsu.hits.springdb1.csv.CommentScv;
 import ru.tsu.hits.springdb1.csv.UserCsv;
-import ru.tsu.hits.springdb1.dto.CommentDto;
-import ru.tsu.hits.springdb1.dto.CreateUpdateComment;
-import ru.tsu.hits.springdb1.dto.TaskDto;
-import ru.tsu.hits.springdb1.dto.UserDto;
+import ru.tsu.hits.springdb1.dto.*;
 import ru.tsu.hits.springdb1.entity.CommentEntity;
 import ru.tsu.hits.springdb1.entity.TaskEntity;
 import ru.tsu.hits.springdb1.entity.UserEntity;
@@ -45,12 +42,22 @@ public class CommentDtoConverter {
         CommentDto commentDto = new CommentDto();
         commentDto.setText(commentEntity.getText());
         commentDto.setUuid(commentEntity.getUuid());
+        commentDto.setUsers_id(commentEntity.getCreatedUserComments().getUuid());
         commentDto.setDateCreate(commentEntity.getDateCreate());
         commentDto.setDateEdit(commentEntity.getDateEdit());
         commentDto.setTasks(convertTasksToDto(commentEntity.getTasks()));
         return commentDto;
     }
-
+    public static GetCommentDto converterEntityToDtoWithoutCommentsInTasks(CommentEntity commentEntity) {
+        GetCommentDto commentDto = new GetCommentDto();
+        commentDto.setText(commentEntity.getText());
+        commentDto.setUuid(commentEntity.getUuid());
+        commentDto.setUsers_id(commentEntity.getCreatedUserComments().getUuid());
+        commentDto.setDateCreate(commentEntity.getDateCreate());
+        commentDto.setDateEdit(commentEntity.getDateEdit());
+       // commentDto.setTasks(convertTasksToDto(commentEntity.getTasks()));
+        return commentDto;
+    }
     public static List<TaskDto> convertTasksToDto(List<TaskEntity> taskEntities) {
         List<TaskDto> result = new ArrayList<>();
         taskEntities.forEach(element -> {

@@ -18,6 +18,7 @@ import ru.tsu.hits.springdb1.exception.CommentNotFoundException;
 import ru.tsu.hits.springdb1.exception.ProjectNotFoundException;
 import ru.tsu.hits.springdb1.repository.CommentRepository;
 import ru.tsu.hits.springdb1.repository.ProjectRepository;
+import ru.tsu.hits.springdb1.repository.TaskRepository;
 import ru.tsu.hits.springdb1.service.part1.Application;
 
 import javax.validation.Valid;
@@ -36,14 +37,16 @@ public class CommentService {
     private final UserService userService;
     private final TaskService taskService;
 
+
     @Transactional
     public CommentDto save(@Valid CreateUpdateComment createUpdateComment) {
         var createdUser = userService.getUserEntityById(createUpdateComment.getUsers_id());
 
-        List<TaskEntity> taskEntities = new ArrayList<>();
+        List<TaskEntity> taskEntities =new ArrayList<>();
         for (String task : createUpdateComment.getTasks_id()) {
             taskEntities.add(taskService.getTaskEntityById(task));
         }
+
         CommentEntity commentEntity = CommentDtoConverter.converterDtoToEntity(createUpdateComment, createdUser, taskEntities);
         commentEntity = commentRepository.save(commentEntity);
 
@@ -55,7 +58,7 @@ public class CommentService {
     @Transactional(readOnly = true)
     public CommentEntity getCommentEntityById(String id) {
         return commentRepository.findById(id)
-                .orElseThrow(() -> new CommentNotFoundException("Комментарий с id" + id + " не найден"));
+                .orElseThrow(() -> new CommentNotFoundException("Комментарий с id " + id + " не найден"));
 
     }
 
@@ -70,9 +73,8 @@ public class CommentService {
         CommentEntity commentEntity = getCommentEntityById(id);
         return CommentDtoConverter.converterEntityToDto(commentEntity);
     }
+    
 
-
-    @Transactional(readOnly = true)
     public List<CreateUpdateComment> getCsvToDto() {
 
         var csvStream = Application.class.getResourceAsStream("/comments.csv");
