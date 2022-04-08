@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface CommentRepository extends CrudRepository<CommentEntity,String> {
     List<CommentEntity> findByCreatedUserComments(UserEntity userEntity);
+
+    CommentEntity findByText(String name);
 }

@@ -1,5 +1,6 @@
 package ru.tsu.hits.springdb1.dto.converter;
 
+import lombok.SneakyThrows;
 import ru.tsu.hits.springdb1.dto.CommentDto;
 import ru.tsu.hits.springdb1.dto.CreateUserDto;
 import ru.tsu.hits.springdb1.dto.TaskDto;
@@ -7,14 +8,22 @@ import ru.tsu.hits.springdb1.dto.UserDto;
 import ru.tsu.hits.springdb1.entity.CommentEntity;
 import ru.tsu.hits.springdb1.entity.TaskEntity;
 import ru.tsu.hits.springdb1.entity.UserEntity;
+import ru.tsu.hits.springdb1.csv.UserCsv;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import static ru.tsu.hits.springdb1.dto.converter.TaskDtoConverter.getCommentDtos;
 
 public class UserDtoConverter {
 
     public static UserEntity converterDtoToEntity(CreateUserDto dto) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(dto.getPassword());
         UserEntity userEntity = new UserEntity();
         userEntity.setUuid(UUID.randomUUID().toString());
         userEntity.setDateCreate(dto.getDateCreate());
@@ -22,7 +31,7 @@ public class UserDtoConverter {
         userEntity.setRole(dto.getRole());
         userEntity.setName(dto.getName());
         userEntity.setEmail(dto.getEmail());
-        userEntity.setPassword(dto.getPassword());
+        userEntity.setPassword(hashedPassword);
 
         return userEntity;
     }
@@ -34,6 +43,7 @@ public class UserDtoConverter {
         userDto.setEmail(userEntity.getEmail());
         userDto.setDateCreate(userEntity.getDateCreate());
         userDto.setDateEdit(userEntity.getDateEdit());
+        userDto.setPassword(userEntity.getPassword());
         userDto.setRole(userEntity.getRole());
         userDto.setCreateTasks(convertTasksToDto(taskEntities));
         userDto.setEditTasks(convertTasksToDto(taskEntitiesEdit));
@@ -47,12 +57,25 @@ public class UserDtoConverter {
         userDto.setEmail(userEntity.getEmail());
         userDto.setDateCreate(userEntity.getDateCreate());
         userDto.setDateEdit(userEntity.getDateEdit());
+        userDto.setPassword(userEntity.getPassword());
         userDto.setRole(userEntity.getRole());
         userDto.setCreateTasks(convertTasksToDto(userEntity.getCreateTasks()));
         userDto.setEditTasks(convertTasksToDto(userEntity.getEditTasks()));
         userDto.setComments(convertCommentToDto(userEntity.getComments()));
         return userDto;
     }
+
+    public static UserDto converterEntityWithoutTasksToDtoForCsv(UserEntity userEntity) {
+        UserDto userDto = new UserDto();
+        userDto.setName(userEntity.getName());
+        userDto.setId(userEntity.getUuid());
+        userDto.setEmail(userEntity.getEmail());
+        userDto.setDateCreate(userEntity.getDateCreate());
+        userDto.setDateEdit(userEntity.getDateEdit());
+        userDto.setRole(userEntity.getRole());
+        return userDto;
+    }
+
     public static List<TaskDto> convertTasksToDto(List<TaskEntity> taskEntities) {
         List<TaskDto> result = new ArrayList<>();
         taskEntities.forEach(element -> {
@@ -74,19 +97,47 @@ public class UserDtoConverter {
     }
 
     private static List<CommentDto> convertCommentToDto(List<CommentEntity> commentEntities) {
-        List<CommentDto> result = new ArrayList<>();
-        commentEntities.forEach(element -> {
-            CommentDto commentDto = new CommentDto();
-            commentDto.setUuid(element.getUuid());
-            commentDto.setUsers_id(element.getCreatedUserComments().getName());
-            commentDto.setText(element.getText());
-            commentDto.setDateCreate(element.getDateCreate());
-            commentDto.setDateEdit(element.getDateEdit());
+        return getCommentDtos(commentEntities);
 
-            result.add(commentDto);
+    }
+
+    @SneakyThrows
+    public static UserDto converterScvToDto(UserCsv userCsv){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateOfCreate = null;
+        Date dateOfEdit = null;
+        dateOfCreate = formatter.parse(userCsv.getCreationDate());
+        dateOfEdit = formatter.parse(userCsv.getEditDate());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(userCsv.getPassword());
+        UserDto userDto = new UserDto();
+        userDto.setId(userCsv.getId());
+        userDto.setName(userCsv.getName());
+        userDto.setEmail(userCsv.getEmail());
+        userDto.setDateEdit(dateOfEdit);
+        userDto.setDateCreate(dateOfCreate);
+        userDto.setRole(userCsv.getRole());
+        userDto.setPassword(hashedPassword);
+        return userDto;
+    }
+    public static List<UserEntity> converterDtoToEntityForScv(List<UserDto> dto) {
+
+
+        List<UserEntity> result = new ArrayList<>();
+        dto.forEach(element -> {
+            UserEntity userEntity = new UserEntity();
+            userEntity.setName(element.getName());
+            userEntity.setEmail(element.getEmail());
+            userEntity.setUuid(element.getId());
+            userEntity.setDateEdit(element.getDateEdit());
+            userEntity.setPassword(element.getPassword());
+            userEntity.setDateCreate(element.getDateCreate());
+            userEntity.setRole(element.getRole());
+            result.add(userEntity);
         });
-        return result;
 
+
+        return result;
     }
 
 }

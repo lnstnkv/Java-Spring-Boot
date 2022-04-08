@@ -33,10 +33,9 @@ public class CommentEntity {
     @JoinColumn(name = "users_id", referencedColumnName = "id")
     private UserEntity createdUserComments;
 
-    @ManyToMany
+   @ManyToMany
     @JoinTable(name = "comment_tasks",
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id"))
-    private List<TaskEntity> taskEntityList;
-
+    private List<TaskEntity> tasks;
 }

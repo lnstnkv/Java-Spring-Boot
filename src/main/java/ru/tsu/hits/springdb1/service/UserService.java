@@ -1,11 +1,10 @@
 package ru.tsu.hits.springdb1.service;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.client.HttpServerErrorException;
 import ru.tsu.hits.springdb1.dto.CreateUserDto;
 import ru.tsu.hits.springdb1.dto.FetchUsersDto;
 import ru.tsu.hits.springdb1.dto.UserDto;
@@ -18,13 +17,17 @@ import ru.tsu.hits.springdb1.exception.UserNotFoundException;
 import ru.tsu.hits.springdb1.repository.CommentRepository;
 import ru.tsu.hits.springdb1.repository.TaskRepository;
 import ru.tsu.hits.springdb1.repository.UserRepository;
+import ru.tsu.hits.springdb1.service.part1.Application;
+import ru.tsu.hits.springdb1.csv.UserCsv;
 
 import javax.persistence.criteria.Predicate;
+import javax.validation.Valid;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,5 +113,30 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<UserDto> getCsvToDto() {
 
+        var csvStream = Application.class.getResourceAsStream("/users.csv");
+        var users = new CsvToBeanBuilder<UserCsv>(new InputStreamReader(Objects.requireNonNull(csvStream)))
+                .withSeparator(',')
+                .withType(UserCsv.class)
+                .withSkipLines(1)
+                .build()
+                .parse();
+
+        List<UserDto> userList = users
+                .stream()
+                .map(UserDtoConverter::converterScvToDto)
+                .collect(Collectors.toList());
+
+
+        return userList;
+    }
+    public void saveCsv(@Valid List<UserDto> createUpdateTasksDto) {
+
+        List<UserEntity> userEntities = UserDtoConverter.converterDtoToEntityForScv(createUpdateTasksDto);
+
+        userRepository.saveAll(userEntities);
+
+    }
 }

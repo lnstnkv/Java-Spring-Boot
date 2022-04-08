@@ -1,30 +1,30 @@
-package ru.tsu.hits.springdb1.service.part1;
+package ru.tsu.hits.springdb1.csv;
 
 import com.opencsv.bean.CsvBindByPosition;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ru.tsu.hits.springdb1.entity.Role;
 
 @ToString
 @Getter
 @Setter
-public class TaskCsv {
+public class ProjectCsv {
+
     @CsvBindByPosition(position = 0)
-    private TypeTasks typeTasks;
+    private String id;
 
     @CsvBindByPosition(position = 1)
-    private String name;
+    private String creationDate;
 
     @CsvBindByPosition(position = 2)
-    private String author;
+    private String editDate;
 
     @CsvBindByPosition(position = 3)
-    private String performer;
+    private String name;
 
     @CsvBindByPosition(position = 4)
-    private String priority;
+    private String description;
 
-    @CsvBindByPosition(position = 5)
-    private String creationDate;
 
 }

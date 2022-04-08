@@ -35,4 +35,10 @@ public class UserController {
         return userService.fetchUsers(dto);
     }
 
+    @PostMapping(value = "/save")
+    public void saveScv() {
+        List<UserDto> tasks = userService.getCsvToDto();
+        userService.saveCsv(tasks);
+
+    }
 }

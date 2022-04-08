@@ -20,4 +20,5 @@ public interface TaskRepository extends CrudRepository<TaskEntity,String> , JpaS
 
     List<TaskEntity> findAll(Specification<TaskEntity> specification);
 
+
 }

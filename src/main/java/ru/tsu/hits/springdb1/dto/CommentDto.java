@@ -11,6 +11,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,4 +24,5 @@ public class CommentDto {
     @Length(min=10)
     private String text;
     private String users_id;
+    private List<TaskDto> tasks;
 }

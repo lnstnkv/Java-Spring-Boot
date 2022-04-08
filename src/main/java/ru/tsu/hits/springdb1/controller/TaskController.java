@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.tsu.hits.springdb1.dto.*;
 import ru.tsu.hits.springdb1.service.TaskService;
-import ru.tsu.hits.springdb1.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/task")
@@ -21,6 +20,13 @@ public class TaskController {
     public TaskDto save(@Valid @RequestBody CreateUpdateTasksDto createUpdateTasksDto) {
 
         return taskService.save(createUpdateTasksDto);
+    }
+
+
+    @PostMapping(value = "/save")
+    public void saveScv() {
+        List<TaskDto> tasks = taskService.getCsvToDto();
+        tasks.forEach(taskService::saveCsv);
     }
 
     @GetMapping(value = "/{id}")
@@ -38,6 +44,12 @@ public class TaskController {
     public List<TaskDto> getTasksByIdProject(@PathVariable String id) {
 
         return taskService.getTasksDtoByProject(id);
+    }
+
+    @GetMapping(value = "/comment/text/{name}")
+    public List<TaskDto> getTasksByNameComment(@PathVariable String name) {
+
+        return taskService.getTasksByComments(name);
     }
 
     @PostMapping(value = "/fetch")

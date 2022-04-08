@@ -3,6 +3,7 @@ package ru.tsu.hits.springdb1.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import ru.tsu.hits.springdb1.entity.TaskEntity;
 
 
@@ -19,6 +20,8 @@ public class ProjectDto {
     private Date dateEdit;
     @NotBlank
     private String name;
+    @NotBlank
+    @Length(min=10)
     private String description;
     private List<TaskDto> tasks;
 }

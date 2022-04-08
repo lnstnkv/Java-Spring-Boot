@@ -3,6 +3,7 @@ package ru.tsu.hits.springdb1.service.part1;
 
 
 import com.opencsv.bean.CsvToBeanBuilder;
+import ru.tsu.hits.springdb1.csv.TaskCsv;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class Application {
                 .parse();
 
         ArrayList<TaskCsv> tasksList = tasks.stream()
-                .filter(taskCsv -> taskCsv.getPriority().contains(searchString))
+               // .filter(taskCsv -> taskCsv.getPriority().contains(searchString))
                 //.sorted(Comparator.comparing(taskCsv->taskCsv.getPriority().contains(searchString)))
                 //.sorted(Comparator.comparing(TaskCsv::getPriority))
                 .collect(ArrayList::new, // создаем ArrayList
@@ -41,12 +42,12 @@ public class Application {
         try(FileWriter writer = new FileWriter("tasks.txt", false))
         {
             for(TaskCsv task : tasksList){
-                writer.write("Тип задачи: " + task.getTypeTasks()+'\n');
-                writer.append("Название задачи: " + task.getName()+'\n');
+                //writer.write("Тип задачи: " + task.getTypeTasks()+'\n');
+                writer.append("Название задачи: " + task.getHeader()+'\n');
                 writer.append("Автор: " + task.getAuthor()+'\n');
                 writer.append("Исполнитель " + task.getPerformer()+'\n');
                 writer.append("Приоритет: " + task.getPriority()+'\n');
-                writer.append("Дата создания: " + task.getCreationDate()+'\n');
+                //writer.append("Дата создания: " + task.getCreationDate()+'\n');
                 writer.append('\n');
                 writer.append('\n');
             }

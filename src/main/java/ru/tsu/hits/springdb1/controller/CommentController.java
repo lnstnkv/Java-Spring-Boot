@@ -2,14 +2,12 @@ package ru.tsu.hits.springdb1.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.tsu.hits.springdb1.dto.CommentDto;
-import ru.tsu.hits.springdb1.dto.CreateUpdateComment;
-import ru.tsu.hits.springdb1.dto.CreateUpdateProjectDto;
-import ru.tsu.hits.springdb1.dto.ProjectDto;
+import ru.tsu.hits.springdb1.dto.*;
 import ru.tsu.hits.springdb1.service.CommentService;
 import ru.tsu.hits.springdb1.service.ProjectService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/comment")
@@ -22,8 +20,22 @@ public class CommentController {
 
         return commentService.save(createUpdateComment);
     }
+
+    @PostMapping(value = "/save")
+    public void saveScv() {
+        List<CreateUpdateComment> tasks = commentService.getCsvToDto();
+        tasks.forEach(commentService::save);
+    }
+
+
     @GetMapping(value = "/{id}")
     public CommentDto getCommentById(@PathVariable String id) {
         return commentService.getCommentDtoById(id);
     }
+
+    @GetMapping(value = "/name/{id}")
+    public CommentDto getCommentByName(@PathVariable String id) {
+        return commentService.getCommentDtoByName(id);
+    }
+
 }

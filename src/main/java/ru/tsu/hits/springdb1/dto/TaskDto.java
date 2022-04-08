@@ -7,6 +7,7 @@ import ru.tsu.hits.springdb1.entity.Priority;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,4 +24,5 @@ public class TaskDto {
     private Date dateCreate;
     private Date dateEdit;
     private Integer timeEstimate;
+    private List<CommentDto> comments;
 }
