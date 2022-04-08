@@ -6,20 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.tsu.hits.springdb1.csv.CommentScv;
-import ru.tsu.hits.springdb1.csv.TaskCsv;
 import ru.tsu.hits.springdb1.dto.*;
 import ru.tsu.hits.springdb1.dto.converter.CommentDtoConverter;
-import ru.tsu.hits.springdb1.dto.converter.ProjectDtoConverter;
-import ru.tsu.hits.springdb1.dto.converter.TaskDtoConverter;
 import ru.tsu.hits.springdb1.entity.CommentEntity;
-import ru.tsu.hits.springdb1.entity.ProjectEntity;
 import ru.tsu.hits.springdb1.entity.TaskEntity;
 import ru.tsu.hits.springdb1.exception.CommentNotFoundException;
-import ru.tsu.hits.springdb1.exception.ProjectNotFoundException;
 import ru.tsu.hits.springdb1.repository.CommentRepository;
-import ru.tsu.hits.springdb1.repository.ProjectRepository;
-import ru.tsu.hits.springdb1.repository.TaskRepository;
-import ru.tsu.hits.springdb1.service.part1.Application;
 
 import javax.validation.Valid;
 import java.io.InputStreamReader;
@@ -62,18 +54,20 @@ public class CommentService {
 
     }
 
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public CommentDto getCommentDtoByName(String name) {
-        CommentEntity commentEntity = commentRepository.findByText(name);
+        CommentEntity commentEntity = commentRepository.findAllByText(name);
         return CommentDtoConverter.converterEntityToDto(commentEntity);
     }
+
+     */
 
     @Transactional(readOnly = true)
     public CommentDto getCommentDtoById(String id) {
         CommentEntity commentEntity = getCommentEntityById(id);
         return CommentDtoConverter.converterEntityToDto(commentEntity);
     }
-    
+
 
     public List<CreateUpdateComment> getCsvToDto() {
 

@@ -12,10 +12,8 @@ import ru.tsu.hits.springdb1.dto.converter.UserDtoConverter;
 import ru.tsu.hits.springdb1.entity.*;
 
 import ru.tsu.hits.springdb1.exception.TaskNotFoundException;
-import ru.tsu.hits.springdb1.exception.UserNotFoundException;
 import ru.tsu.hits.springdb1.repository.CommentRepository;
 import ru.tsu.hits.springdb1.repository.TaskRepository;
-import ru.tsu.hits.springdb1.service.part1.Application;
 import ru.tsu.hits.springdb1.csv.TaskCsv;
 
 import javax.persistence.criteria.Predicate;
@@ -24,6 +22,7 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -76,9 +75,13 @@ public class TaskService {
 
     @Transactional(readOnly = true)
     public List<TaskDto> getTasksByComments(String name) {
-        CommentEntity commentEntity = commentRepository.findByText(name);
-        var commentDto = CommentDtoConverter.converterEntityToDto(commentEntity);
-        return commentDto.getTasks();
+        List<CommentEntity> commentEntity = commentRepository.findAllByText(name);
+        List<TaskEntity> taskEntities = new ArrayList<>();
+        commentEntity.forEach(element->{element.getTasks().forEach(taskEntities::add);});
+
+
+        return taskEntities.stream().map(TaskDtoConverter::converterEntityToDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

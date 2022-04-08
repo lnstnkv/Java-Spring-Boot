@@ -17,7 +17,6 @@ import ru.tsu.hits.springdb1.exception.UserNotFoundException;
 import ru.tsu.hits.springdb1.repository.CommentRepository;
 import ru.tsu.hits.springdb1.repository.TaskRepository;
 import ru.tsu.hits.springdb1.repository.UserRepository;
-import ru.tsu.hits.springdb1.service.part1.Application;
 import ru.tsu.hits.springdb1.csv.UserCsv;
 
 import javax.persistence.criteria.Predicate;
@@ -132,6 +131,7 @@ public class UserService {
 
         return userList;
     }
+    @Transactional
     public void saveCsv(@Valid List<UserDto> createUpdateTasksDto) {
 
         List<UserEntity> userEntities = UserDtoConverter.converterDtoToEntityForScv(createUpdateTasksDto);

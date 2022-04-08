@@ -12,6 +12,8 @@ import ru.tsu.hits.springdb1.entity.UserEntity;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static ru.tsu.hits.springdb1.dto.converter.TaskDtoConverter.getCommentDtos;
+
 public class CommentDtoConverter {
 
     public static CommentEntity converterDtoToEntity(CreateUpdateComment dto, UserEntity userCreated, List<TaskEntity> taskEntities) {
@@ -68,6 +70,7 @@ public class CommentDtoConverter {
             taskDto.setDateCreate(element.getDateCreate());
             taskDto.setDateEdit(element.getDateEdit());
             taskDto.setTimeEstimate(element.getTimeEstimate());
+            //taskDto.setComments(convertCommentToDto(element.getComments()));
             taskDto.setProject_id(element.getProject().getName());
             taskDto.setDescription(element.getDescription());
             taskDto.setHeader(element.getHeader());
@@ -78,6 +81,30 @@ public class CommentDtoConverter {
         return result;
     }
 
+    public static List<GetTasksDto> convertTasksToDtoGet(List<TaskEntity> taskEntities) {
+        List<GetTasksDto> result = new ArrayList<>();
+        taskEntities.forEach(element -> {
+            GetTasksDto taskDto = new GetTasksDto();
+            taskDto.setId(element.getUuid());
+            taskDto.setCreator_id(element.getCreatedUser().getName());
+            taskDto.setPerformer_id(element.getPerformerUser().getName());
+            taskDto.setDateCreate(element.getDateCreate());
+            taskDto.setDateEdit(element.getDateEdit());
+            taskDto.setTimeEstimate(element.getTimeEstimate());
+            //taskDto.setComments(convertCommentToDto(element.getComments()));
+            taskDto.setProject_id(element.getProject().getName());
+            taskDto.setDescription(element.getDescription());
+            taskDto.setHeader(element.getHeader());
+            taskDto.setPriority(element.getPriority());
+
+            result.add(taskDto);
+        });
+        return result;
+    }
+    private static List<CommentDto> convertCommentToDto(List<CommentEntity> commentEntities) {
+        return getCommentDtos(commentEntities);
+
+    }
     @SneakyThrows
     public static CreateUpdateComment converterScvToDto(CommentScv commentScv){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

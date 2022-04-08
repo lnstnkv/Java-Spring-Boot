@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskDto {
+public class    TaskDto {
     private String id;
     private String description;
     @NotBlank

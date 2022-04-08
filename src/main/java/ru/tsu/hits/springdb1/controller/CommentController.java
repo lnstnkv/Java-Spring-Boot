@@ -33,9 +33,11 @@ public class CommentController {
         return commentService.getCommentDtoById(id);
     }
 
-    @GetMapping(value = "/name/{id}")
+   /* @GetMapping(value = "/name/{id}")
     public CommentDto getCommentByName(@PathVariable String id) {
         return commentService.getCommentDtoByName(id);
     }
+
+    */
 
 }

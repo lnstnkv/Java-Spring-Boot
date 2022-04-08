@@ -1,4 +1,4 @@
-package ru.tsu.hits.springdb1.service.part1;
+package ru.tsu.hits.springdb1.service;
 
 
 
