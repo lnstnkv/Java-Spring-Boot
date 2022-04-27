@@ -5,6 +5,6 @@
 
 Использованы фреймворки: Spring Framework
 
-Библиотека: Lombok, Opencsv, Spring Data JPA
+Библиотека: Lombok, Opencsv
 
 Сделана миграция базы данных с помощью Flyway
